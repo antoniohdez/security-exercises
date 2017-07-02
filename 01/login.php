@@ -9,13 +9,15 @@
     // Execute only when there's a POST request.
     if ( $_SERVER["REQUEST_METHOD"] === "POST") {
         
-        // Configure mysql database.
-        $server = "localhost";
-        $username = "root";
-        $password = "";
+        // Configure mysql connection.
+        $config = parse_ini_file("../config.ini", True);
+        
+        $server   = $config["database"]["server"];
+        $user     = $config["database"]["user"];
+        $password = $config["database"]["password"];
         $database = "challenge01";
 
-        $conn = new mysqli($server, $username, $password, $database);
+        $conn = new mysqli($server, $user, $password, $database);
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -24,7 +26,7 @@
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        $sql = "select 1 from User where username = '$username' and password = '$password'";
+        $sql = "SELECT 1 FROM User WHERE username = '$username' AND password = '$password'";
         
         $result = $conn->query($sql);
         
